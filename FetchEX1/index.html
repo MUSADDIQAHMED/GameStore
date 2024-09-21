@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="nav">
+        <img class="playgame" src="https://img.freepik.com/premium-vector/game-store-logo-template-design_316488-1493.jpg" alt="">
+        <div class="search">
+            <input type="search" id="searchBar" onclick="searchData()" placeholder="search for game..">
+            <button type="submit" value="search">Search</button>
+        </div>
+    </div>
+    <div id="container">
+
+    </div>
+
+    <script>
+        let topElement=document.getElementById("container")
+
+        fetch("https://musaddiqahmed.github.io/GameStore/data.json")
+        .then(Response=>Response.json())
+        .then((value)=>{
+            let info= '';
+            value.map((game)=>{
+                info += `
+                    <div class="card">
+                        <img src="${game.url}" alt="">
+                        <h1>${game.title.slice(0,32)}...</h1>
+                        <p>${game.genre} <span>${game.mode}</span></p>
+                        <b>${game.edition}</b>
+                        <h4>${game.platform} <span>${game.publisher}</span></h4>
+                        <div class="sale">
+                            <button type="button" class="oprice">₹ ${game.oprice}/-</button>
+                            <button type="button" class="off">${game.offer}% off</button>
+                        </div>
+                        <div class="btns">
+                            <button type="button" class="price">₹ ${game.dprice}/-</button>
+                            <button type="button" class="rate"><i class="fa-solid fa-star"> </i> ${game.rating} </button>
+                        </div>
+                    </div>
+                `
+
+            })
+            topElement.innerHTML=info
+        })
+
+                    // Get the search bar element
+            const searchBar = document.getElementById('searchBar');
+
+            // Listen for input in the search bar
+            searchBar.addEventListener('input', function() {
+                // Get the search term and convert it to lowercase
+                const filter = searchBar.value.toLowerCase();
+                
+                // Get all card elements
+                const cards = document.querySelectorAll('.card');
+
+                // Loop through each card
+                cards.forEach(card => {
+                    // Check if the card's text includes the search term
+                    if (card.textContent.toLowerCase().includes(filter)) {
+                        card.style.display = 'block'; // Show the card
+                    } else {
+                        card.style.display = 'none'; // Hide the card
+                    }
+                });
+            });
+
+
+
+        //     document.getElementById('searchBar').addEventListener('input', function() {
+        //     const filter = this.value.toLowerCase();
+        //     const cards = document.querySelectorAll('.card');
+
+        //     cards.forEach(card => {
+        //         const text = card.textContent.toLowerCase();
+        //         card.style.display = text.includes(filter) ? 'block' : 'none';
+        //     });
+        // });
+    </script>
+</body>
+</html>
